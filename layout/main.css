@@ -1,0 +1,14 @@
+.donebox{
+    text-decoration: line-through;
+}
+.undonebox{
+
+}
+
+.done-button{
+    display: inline-block;
+    background-color: chartreuse;
+    padding: 3px 4px;
+    border: 0;
+    opacity: 0;
+}

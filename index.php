@@ -1,30 +1,43 @@
 <?php
-
+/* m!W#YuuXHuh5uc4UicFw */
 define('ROOT', dirname(__FILE__));
 
-// include('./views/header.php');
+chmod("/dayside/index.php", 0755);
 
 require_once(ROOT.'/Debug.php');
-require_once(ROOT.'/Model.php');
-require_once(ROOT.'/Controller.php');
+require_once(ROOT.'/mvc/Model.php');
+require_once(ROOT.'/mvc/Controller.php');
 
 session_start();
 
 // $model = new Model();
 $controller = new Controller();
-// $model->addTask('user123', 'user123@gmail.com', 'Dont forget to eat your lunch!');
 
 //mini-router
 $request = $_SERVER['REQUEST_URI'];
 if ($request == '/') {
+    $_SESSION['current_page'] = 1;
     $controller->getAllTasks(0);
-} else if ($request == '/index.php') {
+} else if ($request == '/add') {
     $controller->addAction();
-    // debug($_SERVER['REQUEST_URI']);
-} else if ($request == '/index.php?page=*') {
-    $page = $_GET['page'];
-    $controller->getAllTasks($page);
-} else {
-    debug($request);
-    header('Location: ./views/404.php');
+} else if ($request == '/login') {
+    $controller->loginAction();
+} else if ($request == '/logout') {
+    $controller->logoutAction();
+} else if ($request == '/done') {
+    $controller->doneAction();
+} else if ($request == '/update') {
+    $controller->updateAction();
 }
+/*
+else if ($request == '/dayside/index.php') {
+    header('Location /dayside/index.php');
+} */
+
+if (isset($_GET['page'])) {
+    $page = intval($_GET['page']);
+    $_SESSION['current_page'] = $page;
+    $controller->getAllTasks(($page - 1) * 3);
+}
+
+?>
